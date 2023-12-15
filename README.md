@@ -7,7 +7,7 @@ This is a ethereum wallet using <strong>Tauri + Vite + React + TailwindCSS + Pos
 - First, follow the instructions in [Tauri docs for basic environment setup](https://tauri.app/v1/guides/getting-started/prerequisites) depending on your device.
 - Run `npm install` in the product root folder.
 - Run `cargo update` in the `src-tauri` folder to install rust dependencies.
-- Finally, run `npm run tauri dev` to run the project on local.
+- Finally, run `npm run tauri dev` in the product root folder to run the project on local.
 
 #### I deployed a ALUX test token on Sepolia Ethereum Testnet to test wallet
 
