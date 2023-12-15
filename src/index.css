@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  .center {
+    @apply top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2;
+  }
+  button,
+  .button {
+    @apply px-4 py-2 rounded border border-black;
+  }
+  button.primary {
+    @apply bg-black hover:bg-slate-800 text-white;
+  }
+  button.secondary {
+    @apply bg-white hover:bg-slate-300 text-black;
+  }
+}
