@@ -1,6 +1,6 @@
 # Altura Frontend Test (Tauri)
 
-This is a ethereum wallet built in Tauri using Vite React
+This is a ethereum wallet using <strong>Tauri + Vite + React + TailwindCSS + PostCSS</strong>
 
 ## How to setup and run the proejct
 
