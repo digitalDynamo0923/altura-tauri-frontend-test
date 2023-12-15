@@ -1,30 +1,38 @@
-# React + TypeScript + Vite
+# Altura Frontend Test (Tauri)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is a ethereum wallet built in Tauri using Vite React
 
-Currently, two official plugins are available:
+## How to setup and run the proejct
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- First, follow the instructions in [Tauri docs for basic environment setup](https://tauri.app/v1/guides/getting-started/prerequisites) depending on your device.
+- Run `npm install` in the product root folder.
+- Run `cargo update` in the `src-tauri` folder to install rust dependencies.
+- Finally, run `npm run tauri dev` to run the project on local.
 
-## Expanding the ESLint configuration
+#### I deployed a ALUX test token on Sepolia Ethereum Testnet to test wallet
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+To change the token you can simply update token address from the `.env` file
 
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
+```env
+VITE_TOKEN_ADDRESS="{YOUR TOKEN ADDRESS}"
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+You can also update infura API KEY in the `.env` file.
+
+```env
+VITE_INFURA_KEY="{YOUR INFURA API KEY}"
+```
+
+## Wallet Features
+
+- Create wallet <br />
+  The wallet generates the 12 words mnemonic phase on wallet creation and have fields set password to encrypt the mnemonic phase.
+- Import wallet <br />
+  The users can import their wallet using 12 words mnemonic phase. They are also prompted to set password to encrypt mnemonic phase.
+- Securely store encrypted mnemonic phase on app itself. <br />
+  The app uses Tauri Plugin Store to store encrypted mnemonic phase
+- Login<br />
+  The users can login using the password and this password is used to decrypt to encrypted mnemonic phase.
+- Fetch token balance from blockchain network
+- Refresh token balance
+- Show mnemonic phase if users enter their password
