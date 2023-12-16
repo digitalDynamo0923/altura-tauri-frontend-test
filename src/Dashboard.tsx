@@ -26,7 +26,7 @@ export default function Dashboard() {
     try {
       const contractAddress = import.meta.env.VITE_TOKEN_ADDRESS;
       const provider = new ethers.JsonRpcProvider(
-        `https://sepolia.infura.io/v3/${import.meta.env.VITE_INFURA_KEY}111`
+        `https://sepolia.infura.io/v3/${import.meta.env.VITE_INFURA_KEY}`
       );
       const contract = new ethers.Contract(
         contractAddress,
