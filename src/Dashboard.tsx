@@ -169,17 +169,14 @@ const ShowMnemonicBtn = () => {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded bg-white p-6 text-left align-middle shadow-xl transition-all">
-                  <Dialog.Title
-                    as="h3"
-                    className="font-medium leading-6 text-gray-900"
-                  >
+                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded bg-slate-700 p-6 text-left align-middle shadow-xl transition-all">
+                  <Dialog.Title as="h3" className="font-medium leading-6">
                     {mnemonic ? "Your Mnemonic phase" : "Enter your password"}
                   </Dialog.Title>
                   <div className="mt-2">
                     {mnemonic ? (
                       <textarea
-                        className="w-full rounded border border-slate-700 resize-none p-3"
+                        className="w-full rounded border border-primary resize-none p-3"
                         defaultValue={mnemonic}
                       ></textarea>
                     ) : (
@@ -191,7 +188,7 @@ const ShowMnemonicBtn = () => {
                           type="password"
                           name="pwd"
                           id="pwd"
-                          className="w-full px-3 py-2 rounded border border-slate-700"
+                          className="w-full px-3 py-2 rounded border border-primary"
                           value={pwd}
                           onChange={(e) => setPwd(e.target.value)}
                         />

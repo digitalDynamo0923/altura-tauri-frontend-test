@@ -59,7 +59,7 @@ export default function Login() {
               id="pwd"
               value={pwd}
               onChange={(e) => setPwd(e.target.value)}
-              className="w-full border border-slate-700 rounded px-3 py-2"
+              className="w-full rounded px-3 py-2"
             />
           </div>
           <div className="flex space-x-5 justify-center mt-10">

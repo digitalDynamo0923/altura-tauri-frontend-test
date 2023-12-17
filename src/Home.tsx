@@ -169,7 +169,7 @@ const MnemonicComponent = ({
           .map((word: string, index: number) => (
             <div
               key={`${word}_${index}`}
-              className="border border-slate-700 px-4 py-2 rounded"
+              className="border border-primary px-4 py-2 rounded"
             >
               {word}
             </div>
@@ -217,7 +217,7 @@ const ImportComponent = ({
           name=""
           id=""
           rows={5}
-          className="w-full border border-slate-700 rounded resize-none p-3 bg-transparent focus:outline-none"
+          className="w-full border rounded resize-none p-3 bg-transparent focus:outline-none"
           value={phase}
           onChange={(e) => setPhase(e.target.value)}
         ></textarea>
@@ -282,7 +282,7 @@ const PwdComponent = ({
           id="pwd"
           value={state.pwd}
           onChange={(e) => handleChange(e)}
-          className="w-full border border-slate-700 rounded px-3 py-2 bg-transparent"
+          className="w-full border rounded px-3 py-2 bg-transparent"
         />
         <label htmlFor="confPwd" className="mt-3 mb-1 block">
           Confirm Password
@@ -293,7 +293,7 @@ const PwdComponent = ({
           id="confPwd"
           value={state.confPwd}
           onChange={(e) => handleChange(e)}
-          className="w-full border border-slate-700 rounded px-3 py-2 bg-transparent"
+          className="w-full border rounded px-3 py-2 bg-transparent"
         />
       </div>
       <div className="flex space-x-5 justify-center mt-10">
