@@ -9,20 +9,6 @@ This is a ethereum wallet using <strong>Tauri + Vite + React + TailwindCSS + Pos
 - Run `cargo update` in the `src-tauri` folder to install rust dependencies.
 - Finally, run `npm run tauri dev` in the product root folder to run the project on local.
 
-#### I deployed a ALUX test token on Sepolia Ethereum Testnet to test wallet
-
-To change the token you can simply update token address from the `.env` file
-
-```env
-VITE_TOKEN_ADDRESS="{YOUR TOKEN ADDRESS}"
-```
-
-You can also update infura API KEY in the `.env` file.
-
-```env
-VITE_INFURA_KEY="{YOUR INFURA API KEY}"
-```
-
 ## Wallet Features
 
 - Create wallet <br />
