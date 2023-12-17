@@ -7,7 +7,7 @@ import { Store } from "tauri-plugin-store-api";
 import CryptoJS from "crypto-js";
 import logo from "./assets/logo.webp";
 
-type STEPS = "HOME" | "MNEMONIC" | "PWD" | "IMPORT";
+type STEPS = "HOME" | "MNEMONIC" | "PWD" | "IMPORT" | "CONFIRM";
 type WALLET = "CREATE" | "IMPORT";
 
 function App() {
@@ -16,14 +16,14 @@ function App() {
   const [mnemonic, setMnemonic] = useState<string>("");
   const [showAlert, setShowAlert] = useState<boolean>(false);
   const { setState } = useWallet();
-  const navigete = useNavigate();
+  const navigate = useNavigate();
   const store = new Store(".settings.dat");
 
   useLayoutEffect(() => {
     (async () => {
       const encrypted = await store.get("wallet");
       if (encrypted) {
-        navigete("/login");
+        navigate("/login");
       }
     })();
   }, []);
@@ -44,7 +44,7 @@ function App() {
 
       setShowAlert(true);
       setTimeout(() => {
-        navigete("/dashboard");
+        navigate("/dashboard");
       }, 3000);
     } else {
       console.log(response.message);
@@ -65,6 +65,14 @@ function App() {
         );
       case "IMPORT":
         return <ImportComponent setStep={setStep} setMnemonic={setMnemonic} />;
+      case "CONFIRM":
+        return (
+          <ConfirmComponent
+            setStep={setStep}
+            mnemonic={mnemonic}
+            wallet={wallet}
+          />
+        );
       case "PWD":
         return (
           <PwdComponent
@@ -144,7 +152,9 @@ const MnemonicComponent = ({
   const [copied, setCopied] = useState<boolean>(false);
 
   useEffect(() => {
-    refreshMnemonic();
+    if (!mnemonic) {
+      refreshMnemonic();
+    }
   }, []);
 
   const copyMnemonic = async () => {
@@ -193,8 +203,95 @@ const MnemonicComponent = ({
         <button className="primary" onClick={() => setStep("HOME")}>
           Back
         </button>
-        <button className="secondary" onClick={() => setStep("PWD")}>
+        <button className="secondary" onClick={() => setStep("CONFIRM")}>
           Next
+        </button>
+      </div>
+    </div>
+  );
+};
+
+const ConfirmComponent = ({
+  setStep,
+  mnemonic,
+  wallet,
+}: {
+  setStep: (step: STEPS) => void;
+  mnemonic: string;
+  wallet?: WALLET;
+}) => {
+  const [randomArray, setRandomArray] = useState<number[]>([]);
+  const [state, setState] = useState<{ [key: string]: string }>({});
+
+  const getRandom = () => {
+    const randomArray: number[] = [];
+    while (randomArray.length < 3) {
+      const random = Math.floor(Math.random() * 12);
+      if (!randomArray.includes(random)) {
+        randomArray.push(random);
+      }
+    }
+    return randomArray;
+  };
+
+  useEffect(() => {
+    setRandomArray(getRandom);
+  }, []);
+
+  const handleConfirm = () => {
+    console.log(state);
+    let passed = true;
+    Object.entries(state).forEach(([key, value]) => {
+      const menmonicArray = mnemonic.split(" ").slice(0, 12);
+      if (menmonicArray[parseInt(key)] !== value) passed = false;
+    });
+    if (passed) setStep("PWD");
+    else {
+      setRandomArray(getRandom());
+      setState({});
+    }
+  };
+
+  return (
+    <div>
+      <div className="grid grid-cols-3 gap-x-5 gap-y-2">
+        {mnemonic
+          .split(" ")
+          .slice(0, 12)
+          .map((word: string, index: number) => {
+            console.log(randomArray);
+            if (randomArray.includes(index))
+              return (
+                <input
+                  type="text"
+                  key={`${word}_${index}`}
+                  className="border border-primary px-4 py-2 rounded"
+                  name={index.toString()}
+                  value={state[index.toString()] || ""}
+                  onChange={(e) =>
+                    setState({ ...state, [index.toString()]: e.target.value })
+                  }
+                />
+              );
+            return (
+              <div
+                className="border border-primary px-4 py-2 rounded"
+                key={`${word}_${index}`}
+              >
+                {word}
+              </div>
+            );
+          })}
+      </div>
+      <div className="flex space-x-5 justify-center mt-10">
+        <button
+          className="primary"
+          onClick={() => setStep(wallet === "CREATE" ? "MNEMONIC" : "IMPORT")}
+        >
+          Back
+        </button>
+        <button className="secondary" onClick={() => handleConfirm()}>
+          Confirm
         </button>
       </div>
     </div>
@@ -229,7 +326,7 @@ const ImportComponent = ({
         <button
           className="secondary disabled:opacity-30"
           onClick={() => {
-            setStep("PWD");
+            setStep("CONFIRM");
             setMnemonic(phase);
           }}
           disabled={phase.split(" ").length !== 12}
