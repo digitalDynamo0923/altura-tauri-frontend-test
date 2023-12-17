@@ -6,6 +6,13 @@
   body {
     background-color: #0c0816;
   }
+  * {
+    @apply text-white;
+  }
+  input,
+  textarea {
+    @apply bg-transparent focus:outline-none;
+  }
   .center {
     @apply top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2;
   }
@@ -14,9 +21,9 @@
     @apply px-4 py-2 rounded-lg border border-black text-sm;
   }
   button.primary {
-    @apply bg-primary hover:opacity-70 text-white;
+    @apply bg-primary hover:opacity-70;
   }
   button.secondary {
-    @apply bg-transparent border border-primary hover:bg-slate-300 text-white;
+    @apply bg-transparent border border-primary hover:opacity-70;
   }
 }

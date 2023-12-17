@@ -23,7 +23,7 @@ function App() {
     (async () => {
       const encrypted = await store.get("wallet");
       if (encrypted) {
-        // navigete("/login");
+        navigete("/login");
       }
     })();
   }, []);
@@ -82,7 +82,7 @@ function App() {
   return (
     <div className="max-w-[1440px] relative w-full mx-auto h-screen">
       <div className="absolute center px-6 md:px-10 py-10 w-full max-w-[600px] h-[600px] flex flex-col justify-between">
-        <div className="flex flex-col items-center mt-10">
+        <div className="flex flex-col items-center">
           <img src={logo} alt="logo" />
           <h1 className="text-center text-3xl font-semibold uppercase mt-7 bg-gradient-to-r from-[#C623FF] to-[#0AF1FF] bg-clip-text text-transparent">
             Altura Wallet
@@ -217,7 +217,7 @@ const ImportComponent = ({
           name=""
           id=""
           rows={5}
-          className="w-full border border-slate-700 rounded resize-none p-3"
+          className="w-full border border-slate-700 rounded resize-none p-3 bg-transparent focus:outline-none"
           value={phase}
           onChange={(e) => setPhase(e.target.value)}
         ></textarea>
@@ -282,7 +282,7 @@ const PwdComponent = ({
           id="pwd"
           value={state.pwd}
           onChange={(e) => handleChange(e)}
-          className="w-full border border-slate-700 rounded px-3 py-2"
+          className="w-full border border-slate-700 rounded px-3 py-2 bg-transparent"
         />
         <label htmlFor="confPwd" className="mt-3 mb-1 block">
           Confirm Password
@@ -293,7 +293,7 @@ const PwdComponent = ({
           id="confPwd"
           value={state.confPwd}
           onChange={(e) => handleChange(e)}
-          className="w-full border border-slate-700 rounded px-3 py-2"
+          className="w-full border border-slate-700 rounded px-3 py-2 bg-transparent"
         />
       </div>
       <div className="flex space-x-5 justify-center mt-10">

@@ -24,17 +24,8 @@ export default function Dashboard() {
   const getBalance = async () => {
     setLoading(true);
     try {
-      const contractAddress = import.meta.env.VITE_TOKEN_ADDRESS;
-      const provider = new ethers.JsonRpcProvider(
-        `https://sepolia.infura.io/v3/${import.meta.env.VITE_INFURA_KEY}`
-      );
-      const contract = new ethers.Contract(
-        contractAddress,
-        TOKEN_ABI,
-        provider
-      );
-      const symbol = await contract.symbol();
-      const weiBalance = await contract.balanceOf(state[1]);
+      const provider = new ethers.InfuraProvider("mainnet");
+      const weiBalance = await provider.getBalance(state[1] as string);
       const balance = ethers.formatEther(weiBalance);
       setBalance(balance);
       setSymbol(symbol);
@@ -57,7 +48,7 @@ export default function Dashboard() {
               <p className="text-center">Address</p>
               <div className="flex justify-center items-center space-x-5 mt-3">
                 <p className="text-center text-xs">
-                  {(state[1] as string).slice(0, 5)}...$
+                  {(state[1] as string).slice(0, 5)}...
                   {(state[1] as string).slice(-5)}
                 </p>
                 <RxCopy
@@ -72,7 +63,7 @@ export default function Dashboard() {
           <p className="text-center mt-10">Balance</p>
           <div className="flex justify-center items-center space-x-5 mt-3">
             <h1 className="text-center text-3xl font-semibold uppercase">
-              {balance} {symbol}
+              {balance} ETH
             </h1>
             {loading ? (
               <span>...</span>
