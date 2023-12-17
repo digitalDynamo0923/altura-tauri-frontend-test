@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { useWallet } from "./WalletProvider";
 import { useEffect, useState, Fragment } from "react";
 import { ethers } from "ethers";
-import { RxCopy, RxLockClosed, RxReload } from "react-icons/rx";
+import { RxCheckCircled, RxCopy, RxLockClosed, RxReload } from "react-icons/rx";
 import { Transition, Dialog } from "@headlessui/react";
 import { Store } from "tauri-plugin-store-api";
 import CryptoJS from "crypto-js";
@@ -13,12 +13,21 @@ export default function Dashboard() {
   const [symbol, setSymbol] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | undefined>(undefined);
+  const [copied, setCopied] = useState<boolean>(false);
   const navigate = useNavigate();
 
   useEffect(() => {
     if (state.length === 0) navigate("/");
     getBalance();
   }, []);
+
+  const copyAddress = () => {
+    navigator.clipboard.writeText(state[1] as string);
+    setCopied(true);
+    setTimeout(() => {
+      setCopied(false);
+    }, 3000);
+  };
 
   const getBalance = async () => {
     setLoading(true);
@@ -45,33 +54,39 @@ export default function Dashboard() {
           {state[1] && (
             <>
               <p className="text-center">Address</p>
-              <div className="flex justify-center items-center space-x-5 mt-3">
+              <div className="flex justify-center items-center space-x-5 mt-3 relative">
                 <p className="text-center text-xs">
                   {(state[1] as string).slice(0, 5)}...
                   {(state[1] as string).slice(-5)}
                 </p>
-                <RxCopy
-                  className="w-3 h-3 cursor-pointer"
-                  onClick={() =>
-                    navigator.clipboard.writeText(state[1] as string)
-                  }
-                />
+                <span className="absolute bottom-0 -right-6">
+                  {copied ? (
+                    <RxCheckCircled className="w-3 h-3" />
+                  ) : (
+                    <RxCopy
+                      className="w-3 h-3 cursor-pointer"
+                      onClick={() => copyAddress()}
+                    />
+                  )}
+                </span>
               </div>
             </>
           )}
           <p className="text-center mt-10">Balance</p>
-          <div className="flex justify-center items-center space-x-5 mt-3">
+          <div className="flex justify-center items-center space-x-5 mt-3 relative">
             <h1 className="text-center text-3xl font-semibold uppercase">
               {balance} ETH
             </h1>
-            {loading ? (
-              <span>...</span>
-            ) : (
-              <RxReload
-                className="w-3 h-3 cursor-pointer"
-                onClick={() => getBalance()}
-              />
-            )}
+            <span className="absolute bottom-0 -right-6">
+              {loading ? (
+                <span>...</span>
+              ) : (
+                <RxReload
+                  className="w-3 h-3 cursor-pointer"
+                  onClick={() => getBalance()}
+                />
+              )}
+            </span>
           </div>
         </div>
         <div className="flex justify-center">
