@@ -43,7 +43,7 @@ export default function Login() {
       <div className="absolute center px-6 md:px-10 py-10 w-full max-w-[600px] h-[600px] flex flex-col justify-between">
         <div className="flex flex-col items-center">
           <img src={logo} alt="logo" />
-          <h1 className="text-center text-3xl font-semibold uppercase mt-7">
+          <h1 className="text-center text-3xl font-semibold uppercase mt-7 bg-gradient-to-r from-[#C623FF] to-[#0AF1FF] bg-clip-text text-transparent">
             Altura Wallet
           </h1>
         </div>
