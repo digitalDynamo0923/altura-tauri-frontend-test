@@ -2,7 +2,6 @@ import { useNavigate } from "react-router-dom";
 import { useWallet } from "./WalletProvider";
 import { useEffect, useState, Fragment } from "react";
 import { ethers } from "ethers";
-import TOKEN_ABI from "./IERC20.json";
 import { RxCopy, RxLockClosed, RxReload } from "react-icons/rx";
 import { Transition, Dialog } from "@headlessui/react";
 import { Store } from "tauri-plugin-store-api";
