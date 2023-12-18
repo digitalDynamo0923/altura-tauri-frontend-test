@@ -1,11 +1,12 @@
 import { useNavigate } from "react-router-dom";
 import { useWallet } from "./WalletProvider";
-import { useEffect, useState, Fragment } from "react";
+import { useEffect, useState } from "react";
 import { ethers } from "ethers";
-import { RxCheckCircled, RxCopy, RxLockClosed, RxReload } from "react-icons/rx";
-import { Transition, Dialog } from "@headlessui/react";
-import { Store } from "tauri-plugin-store-api";
-import CryptoJS from "crypto-js";
+import { RxCheckCircled, RxCopy, RxReload } from "react-icons/rx";
+import LockBtn from "./components/LockBtn";
+import ShowMnemonicBtn from "./components/ShowMnemonicBtn";
+import ShowPrivateKeyBtn from "./components/ShowPrivateKeyBtn";
+import AccountSelector from "./components/AccountSelector";
 
 export default function Dashboard() {
   const { state } = useWallet();
@@ -89,10 +90,12 @@ export default function Dashboard() {
             </span>
           </div>
         </div>
-        <div className="flex justify-center">
+        <div className="flex justify-center items-center flex-col space-y-3">
           <ShowMnemonicBtn />
+          <ShowPrivateKeyBtn />
         </div>
       </div>
+      {/* <AccountSelector /> */}
       <LockBtn />
       {error && (
         <div className="absolute top-3 right-3 rounded bg-slate-300 shadow px-4 py-2">
@@ -102,140 +105,3 @@ export default function Dashboard() {
     </div>
   );
 }
-
-const ShowMnemonicBtn = () => {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [pwd, setPwd] = useState<string>("");
-  const [error, setError] = useState<string | undefined>(undefined);
-  const [mnemonic, setMnemonic] = useState<string | undefined>(undefined);
-  const store = new Store(".settings.dat");
-
-  function closeModal() {
-    setIsOpen(false);
-    setTimeout(() => {
-      setMnemonic(undefined);
-      setError(undefined);
-      setPwd("");
-    }, 500);
-  }
-
-  function openModal() {
-    setIsOpen(true);
-  }
-
-  const showMnemonics = async () => {
-    const encrypted = await store.get("wallet");
-    console.log(encrypted);
-    if (encrypted && pwd && pwd.length >= 8) {
-      const bytes = CryptoJS.AES.decrypt(encrypted as string, pwd);
-      const data = bytes.toString(CryptoJS.enc.Utf8);
-      if (data) {
-        setMnemonic(data.slice(1, -1));
-      } else {
-        setError("Wrong password!");
-      }
-    } else {
-      if (!encrypted) setError("Something went wrong, please try again later!");
-      else setError("Wrong password!");
-    }
-  };
-
-  return (
-    <>
-      <button className="secondary" onClick={openModal}>
-        Show Mnemonic Phase
-      </button>
-      <Transition appear show={isOpen} as={Fragment}>
-        <Dialog as="div" className="relative z-10" onClose={closeModal}>
-          <Transition.Child
-            as={Fragment}
-            enter="ease-out duration-300"
-            enterFrom="opacity-0"
-            enterTo="opacity-100"
-            leave="ease-in duration-200"
-            leaveFrom="opacity-100"
-            leaveTo="opacity-0"
-          >
-            <div className="fixed inset-0 bg-black/25" />
-          </Transition.Child>
-          <div className="fixed inset-0 overflow-y-auto">
-            <div className="flex min-h-full items-center justify-center p-4 text-center">
-              <Transition.Child
-                as={Fragment}
-                enter="ease-out duration-300"
-                enterFrom="opacity-0 scale-95"
-                enterTo="opacity-100 scale-100"
-                leave="ease-in duration-200"
-                leaveFrom="opacity-100 scale-100"
-                leaveTo="opacity-0 scale-95"
-              >
-                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded bg-slate-700 p-6 text-left align-middle shadow-xl transition-all">
-                  <Dialog.Title as="h3" className="font-medium leading-6">
-                    {mnemonic ? "Your Mnemonic phase" : "Enter your password"}
-                  </Dialog.Title>
-                  <div className="mt-2">
-                    {mnemonic ? (
-                      <textarea
-                        className="w-full rounded border border-primary resize-none p-3"
-                        defaultValue={mnemonic}
-                      ></textarea>
-                    ) : (
-                      <>
-                        {error && (
-                          <p className="text-red-400 text-sm">{error}</p>
-                        )}
-                        <input
-                          type="password"
-                          name="pwd"
-                          id="pwd"
-                          className="w-full px-3 py-2 rounded border border-primary"
-                          value={pwd}
-                          onChange={(e) => setPwd(e.target.value)}
-                        />
-                      </>
-                    )}
-                  </div>
-
-                  <div className="mt-4 flex justify-end space-x-2">
-                    {!mnemonic && (
-                      <button
-                        type="button"
-                        className="primary"
-                        onClick={() => showMnemonics()}
-                      >
-                        Confirm
-                      </button>
-                    )}
-                    <button
-                      type="button"
-                      className="secondary"
-                      onClick={closeModal}
-                    >
-                      Cancel
-                    </button>
-                  </div>
-                </Dialog.Panel>
-              </Transition.Child>
-            </div>
-          </div>
-        </Dialog>
-      </Transition>
-    </>
-  );
-};
-
-const LockBtn = () => {
-  const navigate = useNavigate();
-  const { setState } = useWallet();
-
-  const lockWallet = () => {
-    setState([]);
-    navigate("/");
-  };
-
-  return (
-    <button onClick={() => lockWallet()} className="absolute top-5 right-5">
-      <RxLockClosed className="w-4 h-4" />
-    </button>
-  );
-};

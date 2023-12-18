@@ -130,6 +130,16 @@ pub mod ecdsa {
       }
     }
 
+    pub fn from_private_key(private_key: &str) -> Result<Self, NoirError> {
+      let seed = private_key.as_bytes();
+      match Self::from_seed(seed) {
+        Ok(result) => {Ok(result)}
+        Err(err) => {
+          Err(NoirError::Bip39Error { message: err.to_string() })
+        }
+      }
+    }
+
     pub fn from_seed(seed: &[u8]) -> Result<Self, NoirError> {
       let secp256k1 = Secp256k1::new();
       let master = ExtendedPrivKey::new_master(Network::Bitcoin, seed)?;

@@ -43,6 +43,14 @@ fn inner_derive(mnemonic: &String) -> Result<(KeyPair, String), NoirError> {
   Ok((derived, eth))
 }
 
+fn import_key(private_key: &String) -> Result<(KeyPair, String), NoirError> {
+  let derivation_path = "m/44'/60'/0'/0/0";
+  let master = KeyPair::from_private_key(private_key)?;
+  let derived = master.derive(derivation_path)?;
+  let eth = eth::Address::from_public(&derived.public.as_bytes())?.to_string();
+  Ok((derived, eth))
+}
+
 #[tauri::command]
 fn generate() -> String {
   Mnemonic::generate().0
@@ -56,9 +64,17 @@ fn derive(mnemonic: String) -> Response<(KeyPair, String)> {
   }
 }
 
+#[tauri::command]
+fn import(private_key: String) -> Response<(KeyPair, String)> {
+  match import_key(&private_key) {
+    Ok(result) => Response::ok(result),
+    Err(err) => Response::err(err.to_string())
+  }
+}
+
 fn main() {
   tauri::Builder::default()
-    .invoke_handler(tauri::generate_handler![generate, derive])
+    .invoke_handler(tauri::generate_handler![generate, derive, import])
     .plugin(tauri_plugin_store::Builder::default().build())
     .run(tauri::generate_context!())
     .expect("error while running tauri application");

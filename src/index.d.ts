@@ -1,0 +1,2 @@
+type STEPS = "HOME" | "MNEMONIC" | "PWD" | "IMPORT" | "CONFIRM";
+type WALLET = "CREATE" | "IMPORT";

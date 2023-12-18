@@ -14,4 +14,8 @@ const derive = async <T>(mnemonic: string): Promise<Response<T>> => {
   return await invoke("derive", { mnemonic });
 };
 
-export { generate, derive };
+const importKey = async <T>(privateKey: string): Promise<Response<T>> => {
+  return await invoke("import", { privateKey });
+};
+
+export { generate, derive, importKey };
