@@ -1,11 +1,12 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import Home from "./Home.tsx";
-import "./index.css";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { WalletProvider } from "./providers/WalletProvider.tsx";
+import { TokensProvider } from "./providers/TokensProvider.tsx";
+import Home from "./Home.tsx";
 import Dashboard from "./Dashboard.tsx";
-import { WalletProvider } from "./WalletProvider.tsx";
 import Login from "./Login.tsx";
+import "./index.css";
 
 const router = createBrowserRouter([
   {
@@ -25,7 +26,9 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <WalletProvider>
-      <RouterProvider router={router} />
+      <TokensProvider>
+        <RouterProvider router={router} />
+      </TokensProvider>
     </WalletProvider>
   </React.StrictMode>
 );

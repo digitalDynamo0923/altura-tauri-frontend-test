@@ -2,7 +2,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
 import { Store } from "tauri-plugin-store-api";
 import CryptoJS from "crypto-js";
-import { KeyPair, useWallet } from "../WalletProvider";
+import { useWallet } from "../providers/WalletProvider";
 
 export default function ShowPrivateKeyBtn() {
   const [isOpen, setIsOpen] = useState<boolean>(false);

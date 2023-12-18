@@ -3,7 +3,7 @@ import { Store } from "tauri-plugin-store-api";
 import CryptoJS from "crypto-js";
 import logo from "./assets/logo.webp";
 import { derive } from "./tauri";
-import { KeyPair, useWallet } from "./WalletProvider";
+import { useWallet } from "./providers/WalletProvider";
 import { useNavigate } from "react-router-dom";
 
 export default function Login() {

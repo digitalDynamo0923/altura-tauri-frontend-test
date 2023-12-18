@@ -2,7 +2,6 @@ import { Fragment, useState } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { RxChevronDown } from "react-icons/rx";
 import Jazzicon from "react-jazzicon";
-import { KeyPair } from "../WalletProvider";
 import { importKey } from "../tauri";
 
 const people = [

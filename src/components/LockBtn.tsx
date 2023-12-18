@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { useWallet } from "../WalletProvider";
+import { useWallet } from "../providers/WalletProvider";
 import { RxLockClosed } from "react-icons/rx";
 
 export default function LockBtn() {

@@ -1,13 +1,5 @@
 import React, { createContext, useContext, useState } from "react";
 
-export type KeyPair = {
-  private: string;
-  public: string;
-  ext_private: string;
-  ext_public: string;
-  seed: number[];
-};
-
 type State = (string | KeyPair)[];
 
 type ContextType = {

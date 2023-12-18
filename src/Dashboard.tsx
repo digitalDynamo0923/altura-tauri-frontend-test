@@ -1,16 +1,16 @@
 import { useNavigate } from "react-router-dom";
-import { useWallet } from "./WalletProvider";
+import { useWallet } from "./providers/WalletProvider";
 import { useEffect, useState } from "react";
 import { ethers } from "ethers";
 import { RxCheckCircled, RxCopy, RxReload } from "react-icons/rx";
 import LockBtn from "./components/LockBtn";
 import ShowMnemonicBtn from "./components/ShowMnemonicBtn";
 import ShowPrivateKeyBtn from "./components/ShowPrivateKeyBtn";
-import AccountSelector from "./components/AccountSelector";
+import TokenList from "./components/TokenList";
 
 export default function Dashboard() {
   const { state } = useWallet();
-  const [balance, setBalance] = useState<string>("0");
+  const [balance, setBalance] = useState<string>("...");
   const [symbol, setSymbol] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | undefined>(undefined);
@@ -90,6 +90,7 @@ export default function Dashboard() {
             </span>
           </div>
         </div>
+        <TokenList />
         <div className="flex justify-center items-center flex-col space-y-3">
           <ShowMnemonicBtn />
           <ShowPrivateKeyBtn />
