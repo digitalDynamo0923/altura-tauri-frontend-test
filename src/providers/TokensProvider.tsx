@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { Store } from "tauri-plugin-store-api";
+import { useWallet } from "./WalletProvider";
 
 type State = TOKEN[];
 
@@ -16,6 +17,7 @@ const TokensContext = createContext<ContextType>({
 export const TokensProvider = ({ children }: { children: React.ReactNode }) => {
   const [tokens, setTokens] = useState<State>([]);
   const store = new Store(".settings.dat");
+  const { state } = useWallet();
 
   useEffect(() => {
     (async () => {
@@ -24,7 +26,7 @@ export const TokensProvider = ({ children }: { children: React.ReactNode }) => {
         setTokens(JSON.parse(tokens as string));
       }
     })();
-  }, []);
+  }, [state]);
 
   return (
     <TokensContext.Provider value={{ tokens, setTokens }}>

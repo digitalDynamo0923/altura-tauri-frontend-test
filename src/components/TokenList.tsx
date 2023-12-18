@@ -37,7 +37,12 @@ const TokenListItem = ({ token }: { token: TOKEN }) => {
         IERC20,
         provider
       );
-      const weiBalance = await tokenContract.balanceOf(state[1]);
+      let weiBalance;
+      if (token.address === "0x0000000000000000000000000000000000000000") {
+        weiBalance = await provider.getBalance(state[1] as string);
+      } else {
+        weiBalance = await tokenContract.balanceOf(state[1]);
+      }
       setBalance(ethers.formatEther(weiBalance));
     })();
   }, []);

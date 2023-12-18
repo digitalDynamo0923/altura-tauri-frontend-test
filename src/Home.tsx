@@ -41,6 +41,15 @@ function App() {
       ).toString();
 
       await store.set("wallet", encrypted);
+
+      const ethToken: TOKEN = {
+        name: "Ethereum",
+        symbol: "ETH",
+        decimals: "18",
+        address: "0x0000000000000000000000000000000000000000",
+      };
+      await store.set("tokens", JSON.stringify([ethToken]));
+
       await store.save();
 
       setShowAlert(true);
