@@ -1,3 +1,4 @@
+This project is tested with BrowserStack.
 # Altura Frontend Test (Tauri)
 
 This is a ethereum wallet using <strong>Tauri + Vite + React + TailwindCSS + PostCSS</strong>
